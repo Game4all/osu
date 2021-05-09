@@ -83,6 +83,9 @@ namespace osu.Game
         private readonly DifficultyRecommender difficultyRecommender = new DifficultyRecommender();
 
         [Cached]
+        private readonly StableImportManager stableImportManager = new StableImportManager();
+
+        [Cached]
         private readonly ScreenshotManager screenshotManager = new ScreenshotManager();
 
         protected SentryLogger SentryLogger;
@@ -667,6 +670,7 @@ namespace osu.Game
             }, Add, true);
 
             loadComponentSingleFile(difficultyRecommender, Add);
+            loadComponentSingleFile(stableImportManager, Add);
 
             loadComponentSingleFile(screenshotManager, Add);
 
