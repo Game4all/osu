@@ -10,6 +10,7 @@ using osu.Game.Screens;
 using osuTK;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Localisation;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
 using osu.Framework.Screens;
@@ -22,9 +23,10 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
 
         private DirectorySelector directorySelector;
 
-        protected override OverlayActivation InitialOverlayActivationMode => OverlayActivation.Disabled;
-
-        protected abstract OsuSpriteText CreateHeader();
+        /// <summary>
+        /// Text to display in the header to inform the user of what they are selecting.
+        /// </summary>
+        public abstract LocalisableString HeaderText { get; }
 
         /// <summary>
         /// Called upon selection of a directory by the user.
@@ -32,13 +34,17 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
         /// <param name="directory">The selected directory</param>
         protected abstract void OnSelection(DirectoryInfo directory);
 
-        protected virtual bool IsValidDirectory(DirectoryInfo info) => info != null;
+        /// <summary>
+        /// Whether the current directory is considered to be valid and can be selected.
+        /// </summary>
+        /// <param name="info">The current directory.</param>
+        /// <returns>Whether the selected directory is considered valid.</returns>
+        protected virtual bool IsValidDirectory(DirectoryInfo info) => true;
 
+        /// <summary>
+        /// The path at which to start selection from.
+        /// </summary>
         protected virtual DirectoryInfo InitialPath => null;
-
-        public override bool AllowExternalScreenChange => false;
-
-        public override bool DisallowExternalBeatmapRulesetChanges => true;
 
         [BackgroundDependencyLoader]
         private void load(OsuColour colours)
@@ -71,11 +77,13 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
                         {
                             new Drawable[]
                             {
-                                CreateHeader().With(header =>
+                                new OsuSpriteText
                                 {
-                                    header.Origin = Anchor.Centre;
-                                    header.Anchor = Anchor.Centre;
-                                })
+                                    Text = HeaderText,
+                                    Font = OsuFont.Default.With(size: 40),
+                                    Origin = Anchor.Centre,
+                                    Anchor = Anchor.Centre,
+                                }
                             },
                             new Drawable[]
                             {
@@ -106,7 +114,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
             if (InitialPath != null)
                 directorySelector.CurrentPath.Value = InitialPath;
 
-            directorySelector.CurrentPath.BindValueChanged(e => selectionButton.Enabled.Value = IsValidDirectory(e.NewValue), true);
+            directorySelector.CurrentPath.BindValueChanged(e => selectionButton.Enabled.Value = e.NewValue != null && IsValidDirectory(e.NewValue), true);
             base.LoadComplete();
         }
 
