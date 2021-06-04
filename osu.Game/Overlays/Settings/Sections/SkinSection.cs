@@ -12,6 +12,7 @@ using osu.Framework.Localisation;
 using osu.Framework.Logging;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterface;
+using osu.Game.Overlays.Settings.Sections.Skins;
 using osu.Game.Skinning;
 using osuTK;
 
@@ -65,6 +66,7 @@ namespace osu.Game.Overlays.Settings.Sections
             Children = new Drawable[]
             {
                 skinDropdown = new SkinSettingsDropdown(),
+                new PreviewSkinButton(),
                 new ExportSkinButton(),
                 new SettingsSlider<float, SizeSlider>
                 {
