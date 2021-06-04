@@ -55,6 +55,7 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
                 {
                     Text = "No usable beatmaps were found for preview."
                 });
+                return;
             }
 
             if (autoModInstance == null)
@@ -63,6 +64,7 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
                 {
                     Text = "The current ruleset doesn't have an autoplay mod for preview."
                 });
+                return;
             }
 
             dialogOverlay.Push(new PreviewSkinDialog(() => previewSkin(autoModInstance)));
