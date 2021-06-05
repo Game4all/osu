@@ -107,6 +107,8 @@ namespace osu.Game.Tests.Visual.Navigation
 
             public new MusicController MusicController => base.MusicController;
 
+            public new DialogOverlay DialogOverlay => base.DialogOverlay;
+
             public new OsuConfigManager LocalConfig => base.LocalConfig;
 
             public new Bindable<WorkingBeatmap> Beatmap => base.Beatmap;

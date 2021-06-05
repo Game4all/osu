@@ -45,6 +45,12 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
             Action = presentDialog;
         }
 
+        protected override void LoadComplete()
+        {
+            workingBeatmap.BindDisabledChanged(disabled => Enabled.Value = !disabled, true);
+            base.LoadComplete();
+        }
+
         private void presentDialog()
         {
             var autoModInstance = ruleset.Value.CreateInstance().GetAutoplayMod();

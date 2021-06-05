@@ -137,6 +137,8 @@ namespace osu.Game
 
         protected SettingsOverlay Settings;
 
+        protected DialogOverlay DialogOverlay;
+
         private VolumeOverlay volume;
         private OsuLogo osuLogo;
 
@@ -749,7 +751,7 @@ namespace osu.Game
             }, rightFloatingOverlayContent.Add, true);
 
             loadComponentSingleFile(new AccountCreationOverlay(), topMostOverlayContent.Add, true);
-            loadComponentSingleFile(new DialogOverlay(), topMostOverlayContent.Add, true);
+            loadComponentSingleFile(DialogOverlay = new DialogOverlay(), topMostOverlayContent.Add, true);
 
             chatOverlay.State.ValueChanged += state => channelManager.HighPollRate.Value = state.NewValue == Visibility.Visible;
 
