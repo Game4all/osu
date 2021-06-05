@@ -78,11 +78,9 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
 
         private void previewSkin(ModAutoplay autoplayMod)
         {
-            var availableBeatmapSets = beatmapManager.GetAllUsableBeatmapSetsEnumerable(IncludedDetails.Minimal);
-            var selectedSet = availableBeatmapSets.ElementAt(RNG.Next(availableBeatmapSets.Count()));
-            var selectedDifficulty = selectedSet.Beatmaps.ElementAt(RNG.Next(selectedSet.Beatmaps.Count()));
+            var availableBeatmaps = beatmapManager.QueryBeatmaps(beatmap => beatmap.Ruleset == ruleset.Value && !beatmap.BeatmapSet.Protected).ToList();
 
-            workingBeatmap.Value = beatmapManager.GetWorkingBeatmap(selectedDifficulty);
+            workingBeatmap.Value = beatmapManager.GetWorkingBeatmap(availableBeatmaps.ElementAt(RNG.Next(availableBeatmaps.Count())));
 
             game.PerformFromScreen(screen =>
             {
