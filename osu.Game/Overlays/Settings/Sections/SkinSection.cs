@@ -58,15 +58,15 @@ namespace osu.Game.Overlays.Settings.Sections
         private IBindable<WeakReference<SkinInfo>> managerUpdated;
         private IBindable<WeakReference<SkinInfo>> managerRemoved;
 
-        [BackgroundDependencyLoader]
-        private void load(OsuConfigManager config)
+        [BackgroundDependencyLoader(true)]
+        private void load(OsuConfigManager config, OsuGame game)
         {
             FlowContent.Spacing = new Vector2(0, 5);
 
             Children = new Drawable[]
             {
                 skinDropdown = new SkinSettingsDropdown(),
-                new PreviewSkinButton(),
+                game != null ? new PreviewSkinButton() : Empty(),
                 new ExportSkinButton(),
                 new SettingsSlider<float, SizeSlider>
                 {
