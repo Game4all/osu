@@ -36,7 +36,7 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
 
         public PreviewSkinButton()
         {
-            Text = "Preview selected skin";
+            Text = @"Preview selected skin";
         }
 
         [BackgroundDependencyLoader]
@@ -59,7 +59,7 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
             {
                 notifications.Post(new SimpleNotification
                 {
-                    Text = "No usable beatmaps were found for preview."
+                    Text = @"No usable beatmaps were found for skin preview."
                 });
                 return;
             }
@@ -68,7 +68,7 @@ namespace osu.Game.Overlays.Settings.Sections.Skins
             {
                 notifications.Post(new SimpleNotification
                 {
-                    Text = "The current ruleset doesn't have an autoplay mod for preview."
+                    Text = @"The current ruleset doesn't have an autoplay mod for skin preview."
                 });
                 return;
             }
