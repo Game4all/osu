@@ -38,7 +38,7 @@ namespace osu.Game.Tests.Visual.Settings
         {
             AddStep("open settings", () => Game.Settings.Show());
             AddUntilStep("preview skin button is enabled", () => previewSkinButton.Enabled.Value);
-            AddStep("lease working beatmap bindable", () => workingBeatmap = Game.Beatmap.BeginLease(true));
+            AddStep("take lease on working beatmap bindable", () => workingBeatmap = Game.Beatmap.BeginLease(true));
             AddUntilStep("preview skin button is disabled", () => !previewSkinButton.Enabled.Value);
             AddStep("return lease on working beatmap bindable", () =>
             {
@@ -55,7 +55,7 @@ namespace osu.Game.Tests.Visual.Settings
             AddStep("click preview skin button", () => previewSkinButton.Click());
             AddUntilStep("wait for dialog appearance", () => Game.DialogOverlay.CurrentDialog != null);
             AddStep("confirm action", () => Game.DialogOverlay.CurrentDialog.Buttons.First().Click());
-            AddUntilStep("current screen is player loader", () => Game.ScreenStack.CurrentScreen is PlayerLoader);
+            AddUntilStep("current screen switched to player loader", () => Game.ScreenStack.CurrentScreen is PlayerLoader);
         }
     }
 }
