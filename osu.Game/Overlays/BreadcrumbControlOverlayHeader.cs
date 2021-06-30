@@ -10,14 +10,18 @@ namespace osu.Game.Overlays
 {
     public abstract class BreadcrumbControlOverlayHeader : TabControlOverlayHeader<string>
     {
-        protected override OsuTabControl<string> CreateTabControl() => new OverlayHeaderBreadcrumbControl();
+        protected override OsuTabControl<string> CreateTabControl() => new OverlayHeaderBreadcrumbControl(CreateIndexTabItem());
+
+        protected abstract OverlayHeaderBreadcrumbControl.ControlTabItem CreateIndexTabItem();
 
         public class OverlayHeaderBreadcrumbControl : BreadcrumbControl<string>
         {
-            public OverlayHeaderBreadcrumbControl()
+            public OverlayHeaderBreadcrumbControl(ControlTabItem indexTabItem)
             {
                 RelativeSizeAxes = Axes.X;
                 Height = 47;
+
+                AddTabItem(indexTabItem);
             }
 
             [BackgroundDependencyLoader]
@@ -31,7 +35,7 @@ namespace osu.Game.Overlays
                 AccentColour = AccentColour,
             };
 
-            private class ControlTabItem : BreadcrumbTabItem
+            public class ControlTabItem : BreadcrumbTabItem
             {
                 protected override float ChevronSize => 8;
 
