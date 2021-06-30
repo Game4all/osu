@@ -9,7 +9,9 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Localisation;
 using osu.Game.Online.API.Requests.Responses;
+using osu.Game.Resources.Localisation.Web;
 
 namespace osu.Game.Overlays.Changelog
 {
@@ -27,7 +29,6 @@ namespace osu.Game.Overlays.Changelog
 
         public ChangelogHeader()
         {
-            TabControl.AddItem(listing_string);
             Current.ValueChanged += e =>
             {
                 if (e.NewValue == listing_string)
@@ -96,6 +97,8 @@ namespace osu.Game.Overlays.Changelog
 
         protected override OverlayTitle CreateTitle() => new ChangelogHeaderTitle();
 
+        protected override OverlayHeaderBreadcrumbControl.ControlTabItem CreateIndexTabItem() => new ChangelogHeaderListingTabItem();
+
         public void Populate(List<APIUpdateStream> streams)
         {
             Streams.Populate(streams);
@@ -108,6 +111,16 @@ namespace osu.Game.Overlays.Changelog
                 return;
 
             Streams.Current.Value = Streams.Items.FirstOrDefault(s => s.Name == Build.Value.UpdateStream.Name);
+        }
+
+        private class ChangelogHeaderListingTabItem : OverlayHeaderBreadcrumbControl.ControlTabItem
+        {
+            protected override LocalisableString LabelFor(string value) => LayoutStrings.HeaderChangelogIndex;
+
+            public ChangelogHeaderListingTabItem()
+                : base(listing_string)
+            {
+            }
         }
 
         private class ChangelogHeaderTitle : OverlayTitle

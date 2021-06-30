@@ -5,7 +5,10 @@ using System;
 using System.Linq;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Localisation;
+using osu.Game.Graphics.UserInterface;
 using osu.Game.Online.API.Requests.Responses;
+using osu.Game.Resources.Localisation.Web;
 
 namespace osu.Game.Overlays.Wiki
 {
@@ -21,7 +24,6 @@ namespace osu.Game.Overlays.Wiki
 
         public WikiHeader()
         {
-            TabControl.AddItem(index_page_string);
             Current.Value = index_page_string;
 
             WikiPageData.BindValueChanged(onWikiPageChange);
@@ -36,7 +38,7 @@ namespace osu.Game.Overlays.Wiki
             TabControl.Clear();
             Current.Value = null;
 
-            TabControl.AddItem(index_page_string);
+            (TabControl as WikiHeaderBreadcrumbControl).ShowIndex();
 
             if (e.NewValue.Path == index_path)
             {
@@ -68,6 +70,33 @@ namespace osu.Game.Overlays.Wiki
         protected override Drawable CreateBackground() => new OverlayHeaderBackground(@"Headers/wiki");
 
         protected override OverlayTitle CreateTitle() => new WikiHeaderTitle();
+
+        protected override OsuTabControl<string> CreateTabControl() => new WikiHeaderBreadcrumbControl(CreateIndexTabItem());
+
+        protected override OverlayHeaderBreadcrumbControl.ControlTabItem CreateIndexTabItem() => new WikiHeaderIndexTabItem();
+
+        private class WikiHeaderBreadcrumbControl : OverlayHeaderBreadcrumbControl
+        {
+            private readonly ControlTabItem indexTabItem;
+
+            public WikiHeaderBreadcrumbControl(ControlTabItem indexTabItem)
+                : base(indexTabItem)
+            {
+                this.indexTabItem = indexTabItem;
+            }
+
+            public void ShowIndex() => AddTabItem(indexTabItem);
+        }
+
+        private class WikiHeaderIndexTabItem : OverlayHeaderBreadcrumbControl.ControlTabItem
+        {
+            protected override LocalisableString LabelFor(string value) => LayoutStrings.HeaderHelpIndex;
+
+            public WikiHeaderIndexTabItem()
+                : base(index_page_string)
+            {
+            }
+        }
 
         private class WikiHeaderTitle : OverlayTitle
         {

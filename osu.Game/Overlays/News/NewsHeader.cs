@@ -4,6 +4,8 @@
 using System;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Localisation;
+using osu.Game.Resources.Localisation.Web;
 
 namespace osu.Game.Overlays.News
 {
@@ -17,8 +19,6 @@ namespace osu.Game.Overlays.News
 
         public NewsHeader()
         {
-            TabControl.AddItem(front_page_string);
-
             article.BindValueChanged(onArticleChanged, true);
         }
 
@@ -56,6 +56,18 @@ namespace osu.Game.Overlays.News
         protected override Drawable CreateBackground() => new OverlayHeaderBackground(@"Headers/news");
 
         protected override OverlayTitle CreateTitle() => new NewsHeaderTitle();
+
+        protected override OverlayHeaderBreadcrumbControl.ControlTabItem CreateIndexTabItem() => new NewsHeaderFrontpageTabItem();
+
+        private class NewsHeaderFrontpageTabItem : OverlayHeaderBreadcrumbControl.ControlTabItem
+        {
+            protected override LocalisableString LabelFor(string value) => NewsStrings.IndexTitleInfo;
+
+            public NewsHeaderFrontpageTabItem()
+                : base(front_page_string)
+            {
+            }
+        }
 
         private class NewsHeaderTitle : OverlayTitle
         {
