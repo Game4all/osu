@@ -16,6 +16,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Utils;
 using osu.Game.Graphics.Sprites;
+using osu.Framework.Localisation;
 
 namespace osu.Game.Graphics.UserInterface
 {
@@ -100,6 +101,8 @@ namespace osu.Game.Graphics.UserInterface
             protected readonly SpriteText Text;
             protected readonly Box Bar;
 
+            protected virtual LocalisableString LabelFor(T value) => (value as IHasDescription)?.Description ?? (value as Enum)?.GetLocalisableDescription() ?? value.ToString();
+
             private Color4 accentColour;
 
             public Color4 AccentColour
@@ -160,7 +163,7 @@ namespace osu.Game.Graphics.UserInterface
                         Margin = new MarginPadding { Top = 5, Bottom = 5 },
                         Origin = Anchor.BottomLeft,
                         Anchor = Anchor.BottomLeft,
-                        Text = (value as IHasDescription)?.Description ?? (value as Enum)?.GetLocalisableDescription() ?? value.ToString(),
+                        Text = LabelFor(value),
                         Font = OsuFont.GetFont(size: 14)
                     },
                     Bar = new Box
